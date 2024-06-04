@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import useClients from '@/clients/composables/useClients'
+
+useClients();
+
 
 </script>
 
