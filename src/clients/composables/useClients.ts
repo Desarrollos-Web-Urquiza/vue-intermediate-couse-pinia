@@ -3,7 +3,7 @@ import clientsApi from '@/api/clients-api';
 import type { Client } from '@/clients/interfaces/client';
 
 const getClients = async():Promise<Client[]> => {
-    const { data } = await clientsApi.get()<Client[]>('/clients?_page=1');
+    const { data } = await clientsApi.get<Client[]>('/clients?_page=1');
     return data;
 }
 
@@ -15,7 +15,7 @@ const useClients = () => {
     )
 
     return {
-
+        isLoading
     }
 
 }

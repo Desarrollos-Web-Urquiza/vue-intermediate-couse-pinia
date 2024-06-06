@@ -2,6 +2,7 @@
 import useClients from '@/clients/composables/useClients'
 
 useClients();
+// const { isLoading, clients }  =  useClients();
 
 
 </script>
