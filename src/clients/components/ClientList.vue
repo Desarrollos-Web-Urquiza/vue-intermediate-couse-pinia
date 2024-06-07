@@ -2,20 +2,22 @@
 import useClients from '@/clients/composables/useClients'
 
 useClients();
-// const { isLoading, clients }  =  useClients();
-
+const { clients }  =  useClients();
 
 </script>
 
 
 <template>
    <ul>
-        <li>
+        <li
+            v-for="client of clients.data"
+            :key="client.id"
+        >
             <RouterLink :to="{
                 name: 'client-id',
-                params: { id: 1 }
+                params: { id: client.id }
             }">
-                Client Name
+                {{ client.name }}
             </RouterLink>
         </li>
    </ul>
