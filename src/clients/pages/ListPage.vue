@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ClientList from '@/clients/components/ClientList.vue';
+import PaginationNumber from '@/clients/components/PaginationNumber.vue';
 
 </script>
 
@@ -15,7 +16,7 @@ import ClientList from '@/clients/components/ClientList.vue';
 
         <!-- LoadingModal --> 
 
-        <RouterView />
+        <PaginationNumber />
     </div>
 </template>
 
