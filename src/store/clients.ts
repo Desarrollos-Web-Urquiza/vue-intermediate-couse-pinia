@@ -26,8 +26,12 @@ export const useClientsStore = defineStore('clients', () => {
             clients.value = newClients
         },
         setPage(page: number){
+            console.log('setPage');
             if( currentPage === page ) return;
-            clients.value = page
+            if(  page <= 0 ) return;
+            if(  page >= totalPages.value + 1 ) return;
+
+            currentPage.value = page
         }
     }
 });
