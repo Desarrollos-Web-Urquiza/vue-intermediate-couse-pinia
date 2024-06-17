@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import useClients from '@/clients/composables/useClients'
+import { defineProps } from 'vue';
 
-useClients();
-const { clients }  =  useClients();
+import type { Client } from "@/clients/interfaces/client"
+
+interface Props {
+    clients: Client[]
+}
+
+const props = defineProps<Props>();
 
 </script>
 
@@ -10,7 +15,7 @@ const { clients }  =  useClients();
 <template>
    <ul>
         <li
-            v-for="client of clients.data"
+            v-for="client of props.clients.data"
             :key="client.id"
         >
             <RouterLink :to="{

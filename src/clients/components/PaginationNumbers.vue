@@ -1,25 +1,35 @@
 <script setup lang="ts">
 import useClients from '@/clients/composables/useClients'
 
-const { getPage, totalPageNumber, totalPages, currentPage } = useClients();
+interface Props {
+    totalPageNumber: array,
+    totalPages: number,
+    currentPage: number
+}
+
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
+  (e: 'getPageEmit', currentPage: number): void;
+}>();
 
 </script>
 
 <template>
     <div>
         <button 
-            :disabled="currentPage == 1"
-            @click = "getPage( currentPage - 1 )"
+            :disabled="props.currentPage == 1"
+            @click = "$emit('getPageEmit', props.currentPage - 1)"
         >Anterior</button>
         <button 
-            v-for="number of totalPageNumber"
+            v-for="number of props.totalPageNumber"
             :key="number"
-            :class="{ active: currentPage === number }"
+            :class="{ active: props.currentPage === number }"
             @click="getPage( number )"
         >{{number}}</button>
         <button
-            :disabled="currentPage == totalPages"
-            @click = "getPage( currentPage + 1 )"
+            :disabled="props.currentPage == props.totalPages"
+            @click = "$emit('getPageEmit', props.currentPage + 1)"
         >Siguiente</button>
     </div>
 </template>
