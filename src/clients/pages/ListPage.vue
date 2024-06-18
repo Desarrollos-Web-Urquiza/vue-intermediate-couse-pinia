@@ -12,8 +12,6 @@ const getPageEmit = (data: number) => {
 
 </script>
 
-
-
 <template>
     <div>
         <h1>Listado de clientes</h1>

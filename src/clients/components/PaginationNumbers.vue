@@ -25,7 +25,7 @@ const emit = defineEmits<{
             v-for="number of props.totalPageNumber"
             :key="number"
             :class="{ active: props.currentPage === number }"
-            @click="getPage( number )"
+            @click="$emit('getPageEmit', number)"
         >{{number}}</button>
         <button
             :disabled="props.currentPage == props.totalPages"
