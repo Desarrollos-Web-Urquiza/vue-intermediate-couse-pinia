@@ -1,15 +1,50 @@
 <script setup lang="ts">
+import LoadingModal from "@/shared/components/icons/LoadingModal.vue"
 
 </script>
 
-
 <template>
+    <h3>
+        Guardando...
+    </h3>
+    <h3>
+        Guardado
+    </h3>
+
+    <LoadingModal v-if="false" />
+
     <div>
-        <h1>Cliente por ID</h1>
-        <RouterView />
+        <h1>Fernando Herrera</h1>
+        <form>
+            <input 
+                type="text"
+                placeholder="Nombre"
+            />
+            <br>
+            <input 
+                type="text"
+                placeholder="Dirección"
+            />
+            <br>
+            <button type="submit">Guardar</button>
+        </form>
     </div>
+
+    <code>
+        Toda la info del cliente
+    </code>
 </template>
 
 <style scoped>
+
+input   {
+    width: 100%;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+button  {
+    margin-bottom: 10x;
+}
 
 </style>
