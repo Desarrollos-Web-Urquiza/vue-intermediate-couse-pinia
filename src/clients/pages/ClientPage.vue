@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router"
-
 import LoadingModal from "@/shared/components/icons/LoadingModal.vue"
+import  { useMutation } from "@tanstack/vue-query";
+import  clientsApi from "@/api/clients-api";
 import useClient from "@/clients/composables/useClient"
+import  type { Client } from "@/clients/interfaces/client";
 
 const route = useRoute();
 
 const { client, isLoading } = useClient( +route.params.id );
+
+const updateClient = async( client: Client ):Promise<Client> => {
+    const { data } = await clientsApi.patch<Client>("clients/" + client.id, client)
+    return data;
+}
+
+const clientMutation = useMutation(updateClient);
 
 </script>
 
@@ -20,17 +29,19 @@ const { client, isLoading } = useClient( +route.params.id );
 
     <LoadingModal v-if="isLoading" />
 
-    <div>
-        <h1>Fernando Herrera</h1>
-        <form>
+    <div v-if="client">
+        <h1>{{ client.name }}</h1>
+        <form @submit.prevent="clientMutation.mutate(client!)">
             <input 
                 type="text"
                 placeholder="Nombre"
+                v-model="client.name"
             />
             <br>
             <input 
                 type="text"
                 placeholder="Dirección"
+                v-model="client.address"
             />
             <br>
             <button type="submit">Guardar</button>
