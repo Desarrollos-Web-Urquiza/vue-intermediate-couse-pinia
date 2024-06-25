@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router"
 import LoadingModal from "@/shared/components/icons/LoadingModal.vue"
-import  { useMutation } from "@tanstack/vue-query";
+import  { useMutation, useQueryClient } from "@tanstack/vue-query";
 import  clientsApi from "@/api/clients-api";
 import useClient from "@/clients/composables/useClient"
 import  type { Client } from "@/clients/interfaces/client";
@@ -9,17 +9,28 @@ import { watch } from 'vue';
 
 const route = useRoute();
 
+const queryClient = useQueryClient();
+
 const { client, isLoading } = useClient( +route.params.id );
 
 const updateClient = async( client: Client ):Promise<Client> => {
-     await new Promise ( resolve =>  {
-        setTimeout(() => resolve(true), 2000 );
-    })
+    // await new Promise ( resolve =>  {
+    //     setTimeout(() => resolve(true), 2000 );
+    // })
     const { data } = await clientsApi.patch<Client>("clients/" + client.id, client)
+    // const queries = queryClient.getQueryCache().findAll(['clients?page='], { exact: false });
+    // console.log('queries', queries);
+    // queries.forEach( query => query.fetch() )
     return data;
 }
 
 const clientMutation = useMutation(updateClient);
+
+// const clientMutation = useMutation(updateClient, {
+//     onSuccess( data ) {
+//         console.log('data', {data});
+//     }
+// });
 
 watch( clientMutation.isSuccess, () => {
     setTimeout(() => {
