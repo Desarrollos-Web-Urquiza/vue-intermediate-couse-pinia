@@ -12,9 +12,10 @@ const useClient = ( id: number ) => {
 
     const client = ref<Client>();
 
-    const { isLoading, data } = useQuery(
+    const { isLoading, data, isError } = useQuery(
         [ 'client', id ],
         () => getClient(id),
+        { retry: false, }
     )
 
     watch (data, () => {
@@ -23,8 +24,9 @@ const useClient = ( id: number ) => {
     }, {  immediate: true  });
 
     return  {
+        client,
+        isError,
         isLoading,
-        client
     }
 
 }
