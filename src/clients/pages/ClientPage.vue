@@ -1,25 +1,29 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router"
 import LoadingModal from "@/shared/components/icons/LoadingModal.vue"
-import  { useMutation } from "@tanstack/vue-query";
+// import  { useMutation } from "@tanstack/vue-query";
 import  clientsApi from "@/api/clients-api";
 import useClient from "@/clients/composables/useClient"
 import  type { Client } from "@/clients/interfaces/client";
-import { watch } from 'vue';
+import { useQueryClient, useMutation } from '@tanstack/vue-query';
+import { watch, computed } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
 
 const queryClient = useQueryClient();
 
-const { client, isLoading, isError } = useClient( +route.params.id );
+const { 
+    client, 
+    isLoading, 
+    isError, 
+    clientMutation,
+    updateClient,
+    isUpdating,
+    isUpdatingSuccess,
+} = useClient( +route.params.id );
 
-const updateClient = async( client: Client ):Promise<Client> => {
-    const { data } = await clientsApi.patch<Client>("clients/" + client.id, client)
-    return data;
-}
-
-const clientMutation = useMutation(updateClient);
+// const clientMutation = makeMutation(updateClient);
 
 watch( clientMutation.isSuccess, () => {
     setTimeout(() => {
@@ -35,10 +39,10 @@ watch( isError, () => {
 </script>
 
 <template>
-    <h3 v-if="clientMutation.isLoading.value">
+    <h3 v-if="isUpdating">
         Guardando...
     </h3>
-    <h3 v-if="clientMutation.isSuccess.value">
+    <h3 v-if="isUpdatingSuccess">
         Guardado
     </h3>
 
@@ -46,7 +50,7 @@ watch( isError, () => {
 
     <div v-if="client">
         <h1>{{ client.name }}</h1>
-        <form @submit.prevent="clientMutation.mutate(client!)">
+        <form @submit.prevent="updateClient(client!)">
             <input 
                 type="text"
                 placeholder="Nombre"
@@ -61,7 +65,7 @@ watch( isError, () => {
             <br>
             <button 
                 type="submit"
-                :disabled="clientMutation.isLoading.value"
+                :disabled="isUpdating"
             >Guardar</button>
         </form>
     </div>
